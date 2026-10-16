@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Unterrichtsmaterial Erneuerbare Energien, Geografie Jahrgang 9: Präsentation und Quiz.">
+<title>Erneuerbare Energien · Geografie 9</title>
+<link rel="stylesheet" href="assets/design.css">
+<style>
+  .wrap { max-width: 1120px; margin: 0 auto; padding: clamp(40px, 9vw, 120px) clamp(16px, 3vw, 32px) 64px; }
+  .grid { display: grid; gap: 16px; margin-top: clamp(28px, 5vw, 56px); grid-template-columns: 1fr; }
+  @media (min-width: 800px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .tile {
+    display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-height: 320px;
+    padding: clamp(24px, 3vw, 40px); border-radius: var(--r-xl); text-decoration: none;
+    transition: transform 200ms var(--ease-out);
+  }
+  .tile:active { transform: scale(var(--press)); }
+  .tile.dark { background: #1d1d1f; color: #f5f5f7; }
+  .tile.blue { background: var(--accent); color: var(--accent-ink); }
+  .tile .headline { margin-bottom: 8px; }
+  .tile p { max-width: 30ch; opacity: 0.85; }
+  .tile .go { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+  .tile .go .ic { width: 1em; height: 1em; transition: transform 160ms var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) { .tile:hover .go .ic { transform: translateX(4px); } }
+  .meta { margin-top: 32px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow">Geografie · Jahrgang 9 · Themenfeld Ressourcen</p>
+  <h1 class="display" style="margin-top:12px">Erneuerbare Energien.</h1>
+  <p class="lead" style="margin-top:16px;max-width:30ch">Eine Doppelstunde mit Film, Quiz und eigener Frage.</p>
+  <div class="grid">
+    <a class="tile dark" href="praesentation/">
+      <div><h2 class="headline">Präsentation</h2><p>12 Folien mit Referentenansicht, Notizen und Uhr.</p></div>
+      <span class="go">Öffnen <svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+    </a>
+    <a class="tile blue" href="quiz/">
+      <div><h2 class="headline">Quiz</h2><p>29 Fragen, vier Fragetypen, Teams oder allein.</p></div>
+      <span class="go">Starten <svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+    </a>
+  </div>
+  <p class="fine meta">Läuft im Browser, ohne Anmeldung, ohne Cookies und ohne Verbindung zu fremden Servern.</p>
+</main>
+<script src="assets/icons.js"></script>
+</body>
+</html>

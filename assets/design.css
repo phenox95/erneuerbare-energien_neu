@@ -1,0 +1,203 @@
+/* ==========================================================================
+   Energie-Unterricht · Design-System
+   Apples Designsprache (Human Interface Guidelines): Systemschrift (SF Pro auf
+   Apple-Geräten), systemgraue Hintergründe, ein einziger Akzent (Systemblau),
+   semantische Systemfarben, weiche Materialien (Glas), konzentrische Radien,
+   volle Dark-Mode-Unterstützung (reines Schwarz mit erhöhten Grautönen).
+   Bewegung: nur transform und opacity, kurze Dauer, nie ease-in.
+   ========================================================================== */
+
+:root {
+  /* Schrift: SF Pro auf Apple-Geräten, sonst die Systemschrift */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue",
+          "Segoe UI Variable Text", "Segoe UI", system-ui, Roboto, Arial, sans-serif;
+
+  /* Bewegung: eigene Kurven statt der schwachen Standardkurven */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --t-press: 140ms;
+  --t-enter: 220ms;
+  --t-exit: 140ms;
+  --lift: 10px;      /* Versatz beim Einblenden; wird bei reduzierter Bewegung 0 */
+  --press: 0.97;     /* Skalierung beim Drücken */
+
+  /* Radien: außen groß, innen kleiner (konzentrisch) */
+  --r-xl: 28px;
+  --r-lg: 22px;
+  --r-md: 14px;
+  --r-sm: 10px;
+
+  /* Farben hell (systemGray6 als Grund, weiße Karten) */
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --surface-2: #ececf0;
+  --ink: #1d1d1f;
+  --ink-2: #6e6e73;
+  --line: rgba(0, 0, 0, 0.1);
+  --accent: #0071e3;
+  --accent-ink: #ffffff;
+  --water: #2b9db8;
+  --leaf: #30a14e;
+  --earth: #f2552c;
+  --sun: #ff9f0a;
+  --ok: #1f8a3b;
+  --ok-bg: rgba(52, 199, 89, 0.16);
+  --bad: #d70015;
+  --bad-bg: rgba(255, 59, 48, 0.13);
+  --glass: rgba(245, 245, 247, 0.72);
+  --thumb: #ffffff;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 28px -12px rgba(0, 0, 0, 0.14);
+  --focus: #0071e3;
+  color-scheme: light;
+}
+
+/* Farben dunkel: per Schalter, per Kapitel (.tone-dark) oder automatisch */
+:root[data-theme="dark"],
+.tone-dark {
+  --bg: #000000;
+  --surface: #1c1c1e;
+  --surface-2: #2c2c2e;
+  --ink: #f5f5f7;
+  --ink-2: #98989d;
+  --line: rgba(255, 255, 255, 0.16);
+  --accent: #0a84ff;
+  --water: #64d2ff;
+  --leaf: #30d158;
+  --earth: #ff9f0a;
+  --sun: #ffd60a;
+  --ok: #30d158;
+  --ok-bg: rgba(48, 209, 88, 0.2);
+  --bad: #ff6961;
+  --bad-bg: rgba(255, 69, 58, 0.2);
+  --glass: rgba(22, 22, 23, 0.7);
+  --thumb: #636366;
+  --shadow: none;
+  --focus: #0a84ff;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #000000; --surface: #1c1c1e; --surface-2: #2c2c2e; --ink: #f5f5f7; --ink-2: #98989d;
+    --line: rgba(255, 255, 255, 0.16); --accent: #0a84ff; --water: #64d2ff; --leaf: #30d158; --earth: #ff9f0a; --sun: #ffd60a;
+    --ok: #30d158; --ok-bg: rgba(48, 209, 88, 0.2); --bad: #ff6961; --bad-bg: rgba(255, 69, 58, 0.2);
+    --glass: rgba(22, 22, 23, 0.7); --thumb: #636366; --shadow: none;
+    --focus: #0a84ff; color-scheme: dark;
+  }
+}
+
+/* Reduzierte Bewegung: Opazität und Farbe bleiben, Bewegung entfällt */
+@media (prefers-reduced-motion: reduce) {
+  :root { --lift: 0px; --press: 1; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.47;
+  letter-spacing: -0.011em;
+  font-size: clamp(17px, 0.6vw + 14px, 22px);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  touch-action: manipulation;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+button, input { font: inherit; color: inherit; letter-spacing: inherit; }
+button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+h1, h2, h3, p { margin: 0; }
+p { text-wrap: pretty; }
+h1, h2, h3 { text-wrap: balance; }
+sub { font-size: 0.7em; line-height: 0; }
+:focus-visible { outline: 4px solid color-mix(in srgb, var(--focus) 55%, transparent); outline-offset: 2px; border-radius: 8px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Typografie: große, enge Überschriften in Semibold, ruhiger Fließtext */
+.display { font-size: clamp(44px, 8vw, 104px); line-height: 1.04; letter-spacing: -0.045em; font-weight: 700; }
+.title   { font-size: clamp(32px, 5.2vw, 68px); line-height: 1.07; letter-spacing: -0.04em; font-weight: 600; }
+.headline{ font-size: clamp(24px, 2.6vw, 38px); line-height: 1.15; letter-spacing: -0.028em; font-weight: 600; }
+.lead    { font-size: clamp(19px, 1.8vw, 28px); line-height: 1.32; letter-spacing: -0.02em; color: var(--ink-2); }
+.eyebrow { font-size: 0.82em; font-weight: 600; letter-spacing: 0; color: var(--ink-2); }
+.fine    { font-size: 0.72em; color: var(--ink-2); line-height: 1.4; }
+.muted   { color: var(--ink-2); }
+
+/* Symbole */
+.ic { width: 1.25em; height: 1.25em; flex: none; stroke: currentColor; fill: none;
+      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.2em; }
+.ic.fill { fill: currentColor; stroke: none; }
+
+/* Flächen */
+.card {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow);
+  padding: clamp(20px, 2.6vw, 40px);
+}
+.card.soft { background: var(--surface-2); box-shadow: none; }
+
+/* Material „Regular“: durchscheinend, gesättigt, weichgezeichnet (wie Apple-Leisten) */
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Knöpfe: Pillenform, Druckfeedback, Hover nur mit Maus */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55em;
+  min-height: 48px; padding: 0.6em 1.5em;
+  border: 0; border-radius: 999px;
+  background: var(--surface-2); color: var(--accent);
+  font-weight: 600; text-decoration: none;
+  transition: transform var(--t-press) var(--ease-out), background-color 160ms ease, color 160ms ease, opacity 160ms ease;
+}
+.btn:active:not(:disabled) { transform: scale(var(--press)); }
+.btn:disabled { opacity: 0.4; cursor: default; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn.large { min-height: 60px; padding: 0.7em 2em; font-size: 1.12em; }
+.btn.ghost { background: transparent; box-shadow: inset 0 0 0 1.5px var(--line); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover:not(:disabled) { background: color-mix(in srgb, var(--surface-2) 88%, var(--ink) 12%); }
+  .btn.primary:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 88%, #000 12%); }
+  .btn.ghost:hover:not(:disabled) { box-shadow: inset 0 0 0 1.5px var(--ink-2); background: transparent; }
+}
+
+/* Textlink mit Pfeil (zweite Ebene, wie bei Produktkacheln) */
+.link { display: inline-flex; align-items: center; gap: 0.3em; color: var(--accent); font-weight: 500; text-decoration: none; }
+.link .ic { width: 1em; height: 1em; transition: transform 160ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .link:hover .ic { transform: translateX(3px); } }
+
+/* Pille */
+.pill {
+  display: inline-flex; align-items: center; gap: 0.5em;
+  padding: 0.3em 0.9em; border-radius: 999px;
+  background: var(--surface-2); color: var(--ink);
+  font-weight: 600; font-size: 0.82em;
+}
+.pill.accent { background: var(--accent); color: var(--accent-ink); }
+
+/* Eingabeeingriffe: Tastatur-Aktionen werden nicht animiert (Emil: nie bei Tastatur) */
+html[data-input="key"] .ui-motion,
+html[data-input="key"] .ui-motion * {
+  transition-duration: 0ms !important;
+  animation-duration: 0ms !important;
+  animation-delay: 0ms !important;
+}
+
+/* Einblenden: nie aus scale(0), immer mit Opazität; Enden schneller als Anfänge */
+.enter { opacity: 0; transform: translateY(var(--lift)); }
+.enter.in {
+  opacity: 1; transform: none;
+  transition: opacity var(--t-enter) var(--ease-out), transform var(--t-enter) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 50ms);
+}
